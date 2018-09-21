@@ -1,0 +1,1 @@
+# cloud-cf-furnitureshop-product-ratings
