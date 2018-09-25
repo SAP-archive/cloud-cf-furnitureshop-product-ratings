@@ -41,8 +41,17 @@
 							</IconTabFilter>
 						</items>
 					</IconTabBar>
-					<List id="idReviewsList" items="{reviewsModel>/reviews}" headerText="{i18n>reviewsTabTitle}" noDataText="{i18n>noCommentsTitle}"
-						growing="true" growingThreshold="10" growingScrollToLoad="true">
+					<List id="idReviewsList" items="{reviewsModel>/reviews}" noDataText="{i18n>noCommentsTitle}" growing="true" growingThreshold="10" growingScrollToLoad="true">
+						<headerToolbar>
+							<Toolbar>
+								<Title text="{i18n>reviewsTabTitle}" level="H2" />
+							</Toolbar>
+						</headerToolbar>
+						<infoToolbar>
+							<Toolbar>
+								<Label text="{i18n>feedInfoToolBar}"/>
+							</Toolbar>
+						</infoToolbar>
 						<FeedListItem sender="{reviewsModel>username}" icon="sap-icon://person-placeholder" iconDensityAware="false" info="{reviewsModel>rating}"
 							text="{reviewsModel>comments}" convertLinksToAnchorTags="All"></FeedListItem>
 					</List>
