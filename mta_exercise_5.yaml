@@ -1,0 +1,56 @@
+ID: product_ratings
+_schema-version: '2.1'
+description: Mary's app to rate products
+version: 1.0.0
+
+modules:
+ - name: ratings_backend
+   type: nodejs
+   path: ratings_backend
+   provides:
+    - name: ratings_backend_api
+      properties:
+         ratings_comments_url: ${default-url}
+   requires:
+    - name: uaa_furnitureshop
+    - name: destination
+    - name: postgresql_ratings
+
+ - name: ratings_frontend
+   type: html5
+   path: ratings_frontend
+   parameters:
+      disk-quota: 256M
+      memory: 256M
+   build-parameters:
+      builder: grunt
+   requires:
+      - name: uaa_furnitureshop
+      - name: ratings_backend_api
+        group: destinations
+        properties:
+          name: ratings_comments
+          url: ~{ratings_comments_url}
+          forwardAuthToken: true
+
+resources:
+ - name: uaa_furnitureshop
+   parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+      shared: true
+   type: org.cloudfoundry.managed-service
+
+ - name: destination
+   parameters:
+      service-plan: lite
+      service: destination
+      shared: true
+   type: org.cloudfoundry.managed-service
+
+ - name: postgresql_ratings
+   type: postgresql
+   parameters:
+    service-plan: v9.6-dev
+

@@ -1,0 +1,32 @@
+{
+	"welcomeFile": "/ratings_frontend/index.html",
+	"authenticationMethod": "route",
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [{
+		"source": "^/ratings_frontend/(.*)$",
+		"target": "$1",
+		"localDir": "webapp"
+	}, {
+		"source": "^/getWishList",
+		"target": "/products",
+		"csrfProtection": true,
+		"destination": "ratings_comments"
+	}, {
+		"source": "^/putReviewComments/",
+		"target": "/products/",
+		"csrfProtection": true,
+		"destination": "ratings_comments"
+	}, {
+		"source": "^/getReviewsList/",
+		"target": "/products/comments/",
+		"csrfProtection": true,
+		"destination": "ratings_comments"
+	}, {
+		"source": "^/getUserInfo",
+		"target": "/getUserInfo",
+		"csrfProtection": true,
+		"destination": "ratings_comments"
+	}]
+}

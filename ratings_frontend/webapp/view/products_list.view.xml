@@ -1,0 +1,43 @@
+<mvc:View controllerName="ratings_frontend.ratings_frontend.controller.products_list" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+	<App id="idAppControl">
+		<pages>
+			<!-- <Page title="{i18n>title}">
+				<content>
+					<Table id="idProductsListTable" inset="false" items="{ path: 'products>/productList'}">
+						<columns>
+							<Column width="12em">
+								<Text text="{i18n>productImageColumn}"/>
+							</Column>
+							<Column width="12em">
+								<Text text="{i18n>productIdColumn}"/>
+							</Column>
+							<Column minScreenWidth="Tablet" demandPopin="true">
+								<Text text="{i18n>productNameColumn}"/>
+							</Column>
+							<Column minScreenWidth="Desktop" demandPopin="true">
+								<Text text="{i18n>ratingColumn}"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem type="Active" press="onProductSelection">
+								<cells>
+									<Image src="{parts: [{path:'products>pictureurl'}], formatter:'.formatIconSource'}"/>
+									<ObjectIdentifier title="{products>productid}"/>
+									<Text text="{products>productname}"/>
+									<Text text="{products>averagerating}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button text="{i18n>refreshProductsButton}" width="125px" press="onRefreshProductsButtonPressed" type="Emphasized"/>
+					</Toolbar>
+				</footer>
+			</Page> -->
+		</pages>
+	</App>
+</mvc:View>

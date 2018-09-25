@@ -1,0 +1,28 @@
+{
+	"dependencies": {
+		"express": "^4.7.2",
+		"cfenv": "^1.0.4",
+		"amqplib": "^0.5.2",
+		"twit": "*",
+		"when": "3.7.8"
+	},
+	"devDependencies": {
+		"gulp": "3.9.1",
+		"gulp-replace": "0.5.4",
+		"jasmine-reporters": "2.1.1",
+		"gulp-jasmine": "2.4.1",
+		"gulp-istanbul": "1.1.1"
+	},
+	"files": [],
+	"main": "app.js",
+	"name": "tweet_comments",
+	"scripts": {
+		"start": "node app.js",
+		"test": "node ./node_modules/gulp/bin/gulp test",
+		"test-coverage": "node ./node_modules/gulp/bin/gulp test-coverage"
+	},
+	"engines": {
+		"node": "8.x"
+	},
+	"version": "1.0.0"
+}
