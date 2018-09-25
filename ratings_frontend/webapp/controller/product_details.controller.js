@@ -44,25 +44,25 @@ sap.ui.define([
 		 * Fetches the reviews and comments for the product whose details are current being viewed.
 		 * Sets the reviews data to the reviews model.
 		 */
-		// setReviewFeed: function () {
-		// 	var controller = this;
-		// 	var productId = this.getView().getModel("productDetails").getData().productid;
-		// 	var url = "/getReviewsList/" + productId;
+		setReviewFeed: function () {
+			var controller = this;
+			var productId = this.getView().getModel("productDetails").getData().productid;
+			var url = "/getReviewsList/" + productId;
 
-		// 	jQuery.ajax({
-		// 		url: url,
-		// 		type: 'GET'
-		// 	}).success(function (response) {
-		// 		var data = {
-		// 			"reviews": response
-		// 		};
-		// 		controller.getView().getModel("reviewsModel").setData(data);
-		// 		controller.getView().setBusy(false);
-		// 	}).error(function (e) {
-		// 		controller.getView().setBusy(false);
-		// 	});
+			jQuery.ajax({
+				url: url,
+				type: 'GET'
+			}).success(function (response) {
+				var data = {
+					"reviews": response
+				};
+				controller.getView().getModel("reviewsModel").setData(data);
+				controller.getView().setBusy(false);
+			}).error(function (e) {
+				controller.getView().setBusy(false);
+			});
 
-		// },
+		},
 
 		/**
 		 * Fetches the updated product details from the server
@@ -104,8 +104,7 @@ sap.ui.define([
 		},
 
 		/**
-		 * We construct the path to the Image source
-		 * @param  {} pictureName - Name of the picture
+		 * @param  {} pictureName
 		 */
 		formatImageSource: function (pictureName) {
 			var headerPath = "/ratings_frontend/resources/images/";
@@ -146,71 +145,71 @@ sap.ui.define([
 		 * When a user adds a rating and a review, she/he clicks on the submit button.
 		 * @param  {} oEvent
 		 */
-		// onSubmitRatingButtonPress: function (oEvent) {
-		// 	var controller = this;
+		onSubmitRatingButtonPress: function (oEvent) {
+			var controller = this;
 
-		// 	//Prepare user input data
-		// 	var userRatingModel = controller.getView().getModel("userRatingModel");
-		// 	var userRating = userRatingModel.getData().rating;
-		// 	var userComment = userRatingModel.getData().comment;
-		// 	var productId = controller.getView().getModel("productDetails").getData().productid;
+			//Prpare user input data
+			var userRatingModel = controller.getView().getModel("userRatingModel");
+			var userRating = userRatingModel.getData().rating;
+			var userComment = userRatingModel.getData().comment;
+			var productId = controller.getView().getModel("productDetails").getData().productid;
 
-		// 	//Validate user's input
-		// 	if (controller.isUserInputInvalid(userRating) || controller.isUserInputInvalid(userComment)) {
-		// 		MessageBox.error("The values you've entered are invalid. Please try again"); //Show a message box if the user input is invalid
-		// 		return;
-		// 	}
+			//Validate user's input
+			if (controller.isUserInputInvalid(userRating) || controller.isUserInputInvalid(userComment)) {
+				MessageBox.error("The values you've entered are invalid. Please try again"); //Show a message box if the user input is invalid
+				return;
+			}
 
-		// 	//Get the user information.
-		// 	var userDetails = controller.getOwnerComponent().getModel("userInfo").getProperty("/data");
+			//Get the user information.
+			var userDetails = controller.getOwnerComponent().getModel("userInfo").getProperty("/data");
 
-		// 	//Prepare user information
-		// 	var firstName = userDetails.givenName;
-		// 	var lastName = userDetails.familyName;
-		// 	var userName = firstName + " " + lastName;
-		// 	var email = userDetails.email;
+			//Prepare user information
+			var firstName = userDetails.givenName;
+			var lastName = userDetails.familyName;
+			var userName = firstName + " " + lastName;
+			var email = userDetails.email;
 
-		// 	//Prepare the data to be sent as part of the PUT API
-		// 	var product_details = {
-		// 		"rating": userRating,
-		// 		"comment": userComment,
-		// 		"userName": userName,
-		// 		"email": email
-		// 	};
-		// 	var productDetails = JSON.stringify(product_details);
+			//Prepare the data to be sent as part of the PUT API
+			var product_details = {
+				"rating": userRating,
+				"comment": userComment,
+				"userName": userName,
+				"email": email
+			};
+			var productDetails = JSON.stringify(product_details);
 
-		// 	var url = "/putReviewComments/" + productId;
+			var url = "/putReviewComments/" + productId;
 
-		// 	controller.getView().setBusy(true);
+			controller.getView().setBusy(true);
 
-		// 	jQuery
-		// 		.ajax({
-		// 			url: url,
-		// 			type: "PUT",
-		// 			headers: {
-		// 				'x-csrf-token': sap.ui.getCore().AppContext.token
-		// 			},
-		// 			data: productDetails,
-		// 			contentType: "application/json",
-		// 			success: function (response) {
-		// 				controller.clearModelData("userRatingModel");
-		// 				controller.setReviewFeed(); // New user comment has been added, we fetch the latest comments back from the server.
-		// 				controller.updateSelectedProductDetails(); //The average rating has been updated, so fetch the latest list of products.
-		// 				MessageToast.show("Rating submitted successfully"); //Toast message to show success.
-		// 			},
-		// 			error: function (e) {
-		// 				console.log(e.message);
-		// 				MessageBox.error("The values you've entered are invalid. Please try again"); //Message box to show error.
-		// 			}
-		// 		});
-		// },
+			jQuery
+				.ajax({
+					url: url,
+					type: "PUT",
+					headers: {
+						'x-csrf-token': sap.ui.getCore().AppContext.token
+					},
+					data: productDetails,
+					contentType: "application/json",
+					success: function (response) {
+						controller.clearModelData("userRatingModel");
+						controller.setReviewFeed(); // New user comment has been added, we fetch the latest comments back from the server.
+						controller.updateSelectedProductDetails(); //The average rating has been updated, so fetch the latest list of products.
+						MessageToast.show("Rating submitted successfully"); //Toast message to show success.
+					},
+					error: function (e) {
+						console.log(e.message);
+						MessageBox.error("The values you've entered are invalid. Please try again"); //Message box to show error.
+					}
+				});
+		},
 
 		/**
 		 * Event handler for back button press
 		 */
 		onBack: function () {
 			this.clearModelData("userRatingModel"); //Clear user entry
-			this.getOwnerComponent().getRouter().navTo("Routeproducts_list"); //Navigate back to the products_list view
+			this.getOwnerComponent().getRouter().navTo("Routeproducts_list"); //Navigate back to the products_list view//TODO:change route name
 		}
 
 	});

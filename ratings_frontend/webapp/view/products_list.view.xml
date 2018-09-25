@@ -2,7 +2,7 @@
 	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
 	<App id="idAppControl">
 		<pages>
-			<!-- <Page title="{i18n>title}">
+			<Page title="{i18n>title}">
 				<content>
 					<Table id="idProductsListTable" inset="false" items="{ path: 'products>/productList'}">
 						<columns>
@@ -37,7 +37,7 @@
 						<Button text="{i18n>refreshProductsButton}" width="125px" press="onRefreshProductsButtonPressed" type="Emphasized"/>
 					</Toolbar>
 				</footer>
-			</Page> -->
+			</Page>
 		</pages>
 	</App>
 </mvc:View>

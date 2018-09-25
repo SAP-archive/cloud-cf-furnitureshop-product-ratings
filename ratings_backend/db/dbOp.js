@@ -92,54 +92,54 @@ function writeWishlistEntitiesToDB(data, cb) {
 }
 
 
-// function uploadInitialData(cb) {
-//     console.log('uploadInitialData');
+function uploadInitialData(cb) {
+    console.log('uploadInitialData');
 
-//     oData.readWishList()
-//         .then(function (body) {
+    oData.readWishList()
+        .then(function (body) {
 
-//             const results = body.d.results;
+            const results = body.d.results;
 
-//             console.log(`RESULTS: ${JSON.stringify(results)}`);
+            console.log(`RESULTS: ${JSON.stringify(results)}`);
 
-//             writeWishlistEntitiesToDB(results,
-//                 function (error) {
-//                     console.log('writeWishlistEntitiesToDB has finished');
+            writeWishlistEntitiesToDB(results,
+                function (error) {
+                    console.log('writeWishlistEntitiesToDB has finished');
 
-//                     if (error) {
-//                         console.error(`Error uploading initial data to DB ${error.toString()}`);
-//                         cb(error)
-//                     } else {
-//                         console.log('Pushed data into DB');
-//                         cb();
-//                     }
-//                 });
-//         })
-//         .catch(function(error) {
-//             console.error(`Error uploadInitialData ${error.toString()}`);
-//             cb(error);
-//         });
-// }
+                    if (error) {
+                        console.error(`Error uploading initial data to DB ${error.toString()}`);
+                        cb(error)
+                    } else {
+                        console.log('Pushed data into DB');
+                        cb();
+                    }
+                });
+        })
+        .catch(function(error) {
+            console.error(`Error uploadInitialData ${error.toString()}`);
+            cb(error);
+        });
+}
 
-// function initializeDB(cb) {
-//     console.log("initializeDB ");
+function initializeDB(cb) {
+    console.log("initializeDB ");
 
-//     const db = _connectToDB();
+    const db = _connectToDB();
 
-//     db.none(CREATE_PRODUCTS_TABLE_SQL)
-//         .then(function() {
-//             console.log("productDetails created");
-//             return db.none(CREATE_COMMENTS_TABLE_SQL);
-//         })
-//         .then( function () {
-//             console.log("commentsTable created");
-//             cb();
-//         })
-//         .catch((error) => {
-//             console.log(`Error while creating productDetails table ${error.toString()}`);
-//             cb(error);
-//         });
-// }
+    db.none(CREATE_PRODUCTS_TABLE_SQL)
+        .then(function() {
+            console.log("productDetails created");
+            return db.none(CREATE_COMMENTS_TABLE_SQL);
+        })
+        .then( function () {
+            console.log("commentsTable created");
+            cb();
+        })
+        .catch((error) => {
+            console.log(`Error while creating productDetails table ${error.toString()}`);
+            cb(error);
+        });
+}
 
 function getProduct(id, cb) {
     const db = _connectToDB();

@@ -136,70 +136,70 @@ function getWishListDestinationUrl() {
     });
 }
 
-// function updateWishlistRating(id, averageRating) {
-//     console.log(`Updating OData Wishlist id ${id} with new rating ${averageRating}`);
+function updateWishlistRating(id, averageRating) {
+    console.log(`Updating OData Wishlist id ${id} with new rating ${averageRating}`);
 
-//     return new Promise(function (resolve, reject) {
-//         console.log(`Getting destination url for wishlist odata collection`);
+    return new Promise(function (resolve, reject) {
+        console.log(`Getting destination url for wishlist odata collection`);
 
-//         getWishListDestinationUrl()
-//             .then(function (url) {
-//                 console.log(`Got destination url for wishlist odata collection ${url}`);
+        getWishListDestinationUrl()
+            .then(function (url) {
+                console.log(`Got destination url for wishlist odata collection ${url}`);
 
-//                 request({
-//                     method: 'PUT',
-//                     url: `${url}/odata/v2/CatalogService/Wishlist('${id}')`,
-//                     body: {
-//                         "productRating": averageRating.toString()
-//                     },
-//                     json: true
-//                 }, function(error, res, body) {
-//                     if (error) {
-//                         console.log(`Failed to update wishlist rating ${error.toString()} - ${JSON.stringify(body)}`);
-//                         reject(error);
-//                     } else {
-//                         console.log(`Updated Wishlist ${JSON.stringify(res)}`);
-//                         resolve(res);
-//                     }
-//                 });
-//             })
-//             .catch(function (error) {
-//                 console.error(`Error getting destination ${error.toString()}`);
-//                 reject(error);
-//             })
-//     });
-// }
+                request({
+                    method: 'PUT',
+                    url: `${url}/odata/v2/CatalogService/Wishlist('${id}')`,
+                    body: {
+                        "productRating": averageRating.toString()
+                    },
+                    json: true
+                }, function(error, res, body) {
+                    if (error) {
+                        console.log(`Failed to update wishlist rating ${error.toString()} - ${JSON.stringify(body)}`);
+                        reject(error);
+                    } else {
+                        console.log(`Updated Wishlist ${JSON.stringify(res)}`);
+                        resolve(res);
+                    }
+                });
+            })
+            .catch(function (error) {
+                console.error(`Error getting destination ${error.toString()}`);
+                reject(error);
+            })
+    });
+}
 
-// function readWishList() {
-//     console.log('Reading wishlist data');
+function readWishList() {
+    console.log('Reading wishlist data');
 
-//     return new Promise(function (resolve, reject) {
-//         console.log(`Getting destination url for wishlist odata collection`);
+    return new Promise(function (resolve, reject) {
+        console.log(`Getting destination url for wishlist odata collection`);
 
-//         getWishListDestinationUrl()
-//             .then(function (url) {
-//                 console.log(`Read destiantion url ${url}`);
+        getWishListDestinationUrl()
+            .then(function (url) {
+                console.log(`Read destiantion url ${url}`);
 
-//                 request({
-//                     method: 'GET',
-//                     url: `${url}/odata/v2/CatalogService/Wishlist`,
-//                     json: true
-//                 }, function(error, response) {
-//                     if (error) {
-//                         console.error(`Error getting odata from wishlist API ${error.toString()}`);
-//                         reject(error);
-//                     } else {
-//                         console.log(`Received Odata from wishlist API`);
-//                         resolve(response.body);
-//                     }
-//                 })
-//             })
-//             .catch(function (error) {
-//                 console.error(`Failed reading Wishlist data - ${error.toString()}`);
-//                 reject(error);
-//             });
-//     });
-// }
+                request({
+                    method: 'GET',
+                    url: `${url}/odata/v2/CatalogService/Wishlist`,
+                    json: true
+                }, function(error, response) {
+                    if (error) {
+                        console.error(`Error getting odata from wishlist API ${error.toString()}`);
+                        reject(error);
+                    } else {
+                        console.log(`Received Odata from wishlist API`);
+                        resolve(response.body);
+                    }
+                })
+            })
+            .catch(function (error) {
+                console.error(`Failed reading Wishlist data - ${error.toString()}`);
+                reject(error);
+            });
+    });
+}
 
 module.exports = {
     updateWishlistRating: updateWishlistRating,

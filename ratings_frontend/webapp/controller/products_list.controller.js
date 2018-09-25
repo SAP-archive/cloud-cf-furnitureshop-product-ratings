@@ -49,42 +49,41 @@
 		 * Fetches the list of products from the server.
 		 * Sets the list details to a local view model.
 		 */
-		// getProductsList: function () {
-		// 	//We make a get call to fetch the product list
-		// 	//To see the back-end mapping go to xs-app.json
-		// 	var controller = this;
-		// 	controller.getView().setBusy(true);
+		getProductsList: function () {
+			//We make a get call to fetch the product list
+			//To see the back-end mapping go to xs-app.json
+			var controller = this;
+			controller.getView().setBusy(true);
 
-		// 	var url = "/getWishList";
-		// 	jQuery
-		// 		.ajax({
-		// 			url: url,
-		// 			type: "GET",
-		// 			dataType: "json",
-		// 			headers: {
-		// 				'x-csrf-token': 'fetch'
-		// 			},
-		// 			complete: function (xhr) {
-		// 				sap.ui.getCore().AppContext.token = xhr.getResponseHeader("x-csrf-token");
-		// 			},
-		// 			success: function (response) {
-		// 				var data = {
-		// 					"productList": response
-		// 				};
-		// 				controller.getView().getModel("products").setData(data);
-		// 				controller.getView().setBusy(false);
-		// 			},
-		// 			error: function (e) {
-		// 				console.log(e.message);
-		// 				controller.getView().setBusy(false);
-		// 			}
-		// 		});
+			var url = "/getWishList";
+			jQuery
+				.ajax({
+					url: url,
+					type: "GET",
+					dataType: "json",
+					headers: {
+						'x-csrf-token': 'fetch'
+					},
+					complete: function (xhr) {
+						sap.ui.getCore().AppContext.token = xhr.getResponseHeader("x-csrf-token");
+					},
+					success: function (response) {
+						var data = {
+							"productList": response
+						};
+						controller.getView().getModel("products").setData(data);
+						controller.getView().setBusy(false);
+					},
+					error: function (e) {
+						console.log(e.message);
+						controller.getView().setBusy(false);
+					}
+				});
 
-		// },
+		},
 
 		/**
-		 * We construct the path to the Image source
-		 * @param  {} pictureName - Name of the picture
+		 * @param  {} pictureName
 		 */
 		formatIconSource: function (pictureName) {
 			var headerPath = "/ratings_frontend/resources/icons/ico_";
@@ -106,18 +105,18 @@
 		 * Navigates to the Details View.
 		 * @param  {} oEvent
 		 */
-		// onProductSelection: function (oEvent) {
-		// 	//We identify the selected product form the event object and the binding context
-		// 	var bindingContextPath = oEvent.getSource().getBindingContextPath();
-		// 	var productsModel = this.getView().getModel("products");
-		// 	var selectedProduct = productsModel.getProperty(bindingContextPath);
+		onProductSelection: function (oEvent) {
+			//We identify the selected product form the event object and the binding context
+			var bindingContextPath = oEvent.getSource().getBindingContextPath();
+			var productsModel = this.getView().getModel("products");
+			var selectedProduct = productsModel.getProperty(bindingContextPath);
 
-		// 	//Set the selected product data in an owner component model (Model that can be accessed from any view)
-		// 	this.getOwnerComponent().getModel("selectedProductModel").setProperty("/data", selectedProduct);
+			//Set the selected product data in an owner component model (Model that can be accessed from any view)
+			this.getOwnerComponent().getModel("selectedProductModel").setProperty("/data", selectedProduct);
 
-		// 	//Navigate to product_details view
-		// 	this.getOwnerComponent().getRouter().navTo("Routeproduct_details");
-		// }
+			//Navigate to product_details view
+			this.getOwnerComponent().getRouter().navTo("Routeproduct_details");
+		}
 
   	});
   });

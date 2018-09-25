@@ -2,7 +2,7 @@
 	controllerName="ratings_frontend.ratings_frontend.controller.product_details" xmlns:html="http://www.w3.org/1999/xhtml">
 	<App>
 		<pages>
-			<!-- <Page title="{productDetails>/productname}" showNavButton="true" navButtonPress="onBack">
+			<Page title="{productDetails>/productname}" showNavButton="true" navButtonPress="onBack">
 				<content>
 					<IconTabBar>
 						<items>
@@ -52,7 +52,7 @@
 						<ToolbarSpacer/>
 					</Toolbar>
 				</footer>
-			</Page> -->
+			</Page>
 		</pages>
 	</App>
 </mvc:View>

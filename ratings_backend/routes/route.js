@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var dbOp = require('../db/dbOp');
+var amqp = require('amqplib/callback_api');
 var xsenv = require('@sap/xsenv');
 var xssec = require('@sap/xssec');
+// TODO: Use xsenv
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
-// var amqp = require('amqplib/callback_api');
-// var rabbitmqURL = vcap_services.rabbitmq[0].credentials.uri;
+var rabbitmqURL = vcap_services.rabbitmq[0].credentials.uri;
 
 var urlBase = '/products';
 
@@ -78,20 +79,20 @@ router.get(`${urlBase}/comments/:id`, function(req, res) {
     });
 });
 
-// function addToRabbitMQ(comment) {
-//   amqp.connect(rabbitmqURL, function(err, conn) {
-//     conn.createChannel(function(err, ch) {
-//       var q = 'Review';
-//       ch.assertQueue(q, {
-//         durable: false
-//       });
-//       // Note: on Node 6 Buffer.from(msg) should be used
-//       ch.sendToQueue(q, new Buffer(comment));
-//       setTimeout(function() {conn.close();}, 1000);
-//       console.log(" [x] Sent %s", comment);
-//     });
-//   });
-// }
+function addToRabbitMQ(comment) {
+  amqp.connect(rabbitmqURL, function(err, conn) {
+    conn.createChannel(function(err, ch) {
+      var q = 'Review';
+      ch.assertQueue(q, {
+        durable: false
+      });
+      // Note: on Node 6 Buffer.from(msg) should be used
+      ch.sendToQueue(q, new Buffer(comment));
+      setTimeout(function() {conn.close();}, 1000);
+      console.log(" [x] Sent %s", comment);
+    });
+  });
+}
 
 router.put(`${urlBase}/:id`, function(req, res) {
   var id = req.params.id;
@@ -105,7 +106,8 @@ router.put(`${urlBase}/:id`, function(req, res) {
           res.send(error.toString());
         } else {
         console.log("$$$ inside put request response");
-        // addToRabbitMQ(req.body.comment);
+        // TODO: Add Rabbit back in
+        addToRabbitMQ(req.body.comment);
         res.status(200);
         res.send(data); //modify the response message.
     }

@@ -14,28 +14,28 @@ app.use(bodyParser.json());
 app.use('/', route);
 
 var appEnv   = cfenv.getAppEnv();
-// dbOp.initializeDB(function(error) {
-//     if (error) {
-//         console.error(`Error initializing database ${error.toString()}`);
-//         process.exit(-2);
-//     }
+dbOp.initializeDB(function(error) {
+    if (error) {
+        console.error(`Error initializing database ${error.toString()}`);
+        process.exit(-2);
+    }
 
-//     dbOp.uploadInitialData(function (error) {
-//         if (error) {
-//             console.error(`Error uploading initial data ${error.toString()}` );
-//             process.exit(-3);
-//         }
+    dbOp.uploadInitialData(function (error) {
+        if (error) {
+            console.error(`Error uploading initial data ${error.toString()}` );
+            process.exit(-3);
+        }
 
-//         console.log(`Uploaded initial data`);
-// 		var serviceURL = appEnv.url;
-// 		var servicePort = appEnv.port;
+        console.log(`Uploaded initial data`);
+		var serviceURL = appEnv.url;
+		var servicePort = appEnv.port;
 
-//         app.listen(servicePort, function() {
-//             console.log("server started on " + serviceURL);
-//     	});
+        app.listen(servicePort, function() {
+            console.log("server started on " + serviceURL);
+    	});
 
-//         // TODO: Add cleanup - https://expressjs.com/en/advanced/healthcheck-graceful-shutdown.html
-// 	});
+        // TODO: Add cleanup - https://expressjs.com/en/advanced/healthcheck-graceful-shutdown.html
+	});
 
 
-// });
+});
