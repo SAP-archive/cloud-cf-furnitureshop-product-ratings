@@ -153,6 +153,7 @@ sap.ui.define([
 			var userRating = userRatingModel.getData().rating;
 			var userComment = userRatingModel.getData().comment;
 			var productId = controller.getView().getModel("productDetails").getData().productid;
+			var productName = controller.getView().getModel("productDetails").getData().productname;
 
 			//Validate user's input
 			if (controller.isUserInputInvalid(userRating) || controller.isUserInputInvalid(userComment)) {
@@ -171,6 +172,7 @@ sap.ui.define([
 
 			//Prepare the data to be sent as part of the PUT API
 			var product_details = {
+				"productName": productName,
 				"rating": userRating,
 				"comment": userComment,
 				"userName": userName,
