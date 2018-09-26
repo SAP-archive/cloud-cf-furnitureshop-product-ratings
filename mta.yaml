@@ -1,7 +1,7 @@
 ID: product_ratings
 _schema-version: '2.1'
 description: Mary's app to rate products
-version: 1.0.0
+version: 1.0.1
 
 modules:
  - name: ratings_backend
