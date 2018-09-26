@@ -69,6 +69,11 @@ router.get(`${urlBase}/comments/:id`, function(req, res) {
 router.put(`${urlBase}/:id`, function(req, res) {
   var id = req.params.id;
   var body = req.body;
+  var productName = body.productName;
+  var userName = body.userName;
+  var rating = body.rating;
+  var comment = body.comment;
+  var tweetMessage = userName + "'s review for '" + productName + "' - " + " \"" + comment + "\" ( " + rating + " stars )";
 
   console.log(`Put comment ${id} ${JSON.stringify(body)}`);
 
@@ -78,7 +83,7 @@ router.put(`${urlBase}/:id`, function(req, res) {
           res.send(error.toString());
         } else {
         console.log("$$$ inside put request response");
-        // addToRabbitMQ(req.body.comment);
+        //addToRabbitMQ(tweetMessage);
         res.status(200);
         res.send(data); //modify the response message.
     }
