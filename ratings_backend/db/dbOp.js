@@ -141,20 +141,6 @@ function writeWishlistEntitiesToDB(data, cb) {
 //         });
 // }
 
-function getProduct(id, cb) {
-    const db = _connectToDB();
-
-    db.one('SELECT * FROM product_details WHERE productID = $1', [id])
-        .then(function(data) {
-          console.log(`Retrieved product ${id} ${JSON.stringify(data)}`);
-          cb(null, data)
-        })
-        .catch(function(error) {
-          console.error(`Error retrieving product id ${id} ${error.toString()}`);
-          cb(error);
-        })
-}
-
 function getAllProducts(cb) {
     const db = _connectToDB();
 
@@ -179,20 +165,6 @@ function getCommentsForProductId(id, cb) {
         })
         .catch(function(error) {
             console.error(`Error retrieving product id ${id} ${error.toString()}`);
-            cb(error);
-        })
-}
-
-function getAllComments(cb) {
-    const db = _connectToDB();
-
-    db.manyOrNone('SELECT * FROM comments')
-        .then(function(data) {
-            console.log(`Retrieved comments ${JSON.stringify(data)}`);
-            cb(null, data)
-        })
-        .catch(function(error) {
-            console.error(`Error retrieving comments ${error.toString()}`);
             cb(error);
         })
 }
@@ -278,8 +250,6 @@ module.exports = {
     initializeDB: initializeDB,
     uploadInitialData: uploadInitialData,
     getAllProducts: getAllProducts,
-    getProduct: getProduct,
     modifyRatingANDComments: modifyRatingANDComments,
     getCommentsForProductId: getCommentsForProductId,
-    getAllComments: getAllComments
 };
