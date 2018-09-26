@@ -1,58 +1,64 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	controllerName="ratings_frontend.ratings_frontend.controller.product_details" xmlns:html="http://www.w3.org/1999/xhtml">
-	<App>
-		<pages>
-			<!-- <Page title="{productDetails>/productname}" showNavButton="true" navButtonPress="onBack">
-				<content>
-					<IconTabBar>
-						<items>
-							<IconTabFilter text="{i18n>detailsTab}" icon="sap-icon://hint">
-								<content height="100%">
-									<sap.ui.layout.form:SimpleForm editable="false" layout="ResponsiveGridLayout" xmlns:sap.ui.layout.form="sap.ui.layout.form">
-										<sap.ui.layout.form:content>
-											<Label text="{i18n>productIdLabel}"/>
-											<Text text="{productDetails>/productid}"/>
-											<Label text="{i18n>productNameLabel}"/>
-											<Text text="{productDetails>/productname}"/>
-											<Label text="{i18n>descriptionLabel}"/>
-											<Text text="{productDetails>/productdesc}"/>
-											<Label text="{i18n>averageRatingLabel}"/>
-											<RatingIndicator maxValue="5" iconSize="22px" tooltip="{i18n>ratingInputTooltip}" displayOnly="true" value="{productDetails>/averagerating}"/>
-											<Label text="{i18n>imageLabel}"/>
-											<Image src="{parts: [{path:'productDetails>/pictureurl'}], formatter:'.formatImageSource'}"/>
-										</sap.ui.layout.form:content>
-									</sap.ui.layout.form:SimpleForm>
-								</content>
-							</IconTabFilter>
-							<IconTabSeparator icon=""/>
-							<IconTabFilter text="{i18n>rateItemTab}" icon="sap-icon://favorite">
-								<content>
-									<sap.ui.layout.form:SimpleForm editable="true" layout="ResponsiveGridLayout" xmlns:sap.ui.layout.form="sap.ui.layout.form">
-										<sap.ui.layout.form:content>
-											<Label text="{i18n>ratingLabel}"/>
-											<RatingIndicator maxValue="5" value="{userRatingModel>/rating}" iconSize="22px" tooltip="Rating Tooltip"/>
-											<Label text="{i18n>commentLabel}"/>
-											<Input width="50%" placeholder="{i18n>commentInputPlaceholder}" value="{userRatingModel>/comment}"/>
-											<Label text=""/>
-											<Button text="{i18n>submitButton}" width="50%" type="Emphasized" press="onSubmitRatingButtonPress"/>
-										</sap.ui.layout.form:content>
-									</sap.ui.layout.form:SimpleForm>
-								</content>
-							</IconTabFilter>
-						</items>
-					</IconTabBar>
-					<List id="idReviewsList" items="{reviewsModel>/reviews}" headerText="{i18n>reviewsTabTitle}" noDataText="{i18n>noCommentsTitle}"
+<mvc:View
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+	controllerName="ratings_frontend.ratings_frontend.controller.product_details"
+    xmlns:html="http://www.w3.org/1999/xhtml">
+    <App>
+        <pages>
+            <Page title="{productDetails>/productname}" showNavButton="true" navButtonPress="onBack">
+                <content>
+                    <IconTabBar>
+                        <items>
+                            <IconTabFilter text="{i18n>detailsTab}" icon="sap-icon://hint">
+                                <content height="100%">
+                                    <sap.ui.layout.form:SimpleForm editable="false" layout="ResponsiveGridLayout"
+                                        xmlns:sap.ui.layout.form="sap.ui.layout.form">
+                                        <sap.ui.layout.form:content>
+                                            <Label text="{i18n>productIdLabel}"/>
+                                            <Text text="{productDetails>/productid}"/>
+                                            <Label text="{i18n>productNameLabel}"/>
+                                            <Text text="{productDetails>/productname}"/>
+                                            <Label text="{i18n>descriptionLabel}"/>
+                                            <Text text="{productDetails>/productdesc}"/>
+                                            <Label text="{i18n>averageRatingLabel}"/>
+                                            <RatingIndicator maxValue="5" iconSize="22px" tooltip="{i18n>ratingInputTooltip}" displayOnly="true" value="{productDetails>/averagerating}"/>
+                                            <Label text="{i18n>imageLabel}"/>
+                                            <Image src="{parts: [{path:'productDetails>/pictureurl'}], formatter:'.formatImageSource'}"/>
+                                        </sap.ui.layout.form:content>
+                                    </sap.ui.layout.form:SimpleForm>
+                                </content>
+                            </IconTabFilter>
+                            <IconTabSeparator icon=""/>
+                            <IconTabFilter text="{i18n>rateItemTab}" icon="sap-icon://favorite">
+                                <content>
+                                    <sap.ui.layout.form:SimpleForm editable="true" layout="ResponsiveGridLayout"
+                                        xmlns:sap.ui.layout.form="sap.ui.layout.form">
+                                        <sap.ui.layout.form:content>
+                                            <Label text="{i18n>ratingLabel}"/>
+                                            <RatingIndicator maxValue="5" value="{userRatingModel>/rating}" iconSize="22px" tooltip="Rating Tooltip"/>
+                                            <Label text="{i18n>commentLabel}"/>
+                                            <Input width="50%" placeholder="{i18n>commentInputPlaceholder}" value="{userRatingModel>/comment}"/>
+                                            <Label text=""/>
+                                            <Button text="{i18n>submitButton}" width="50%" type="Emphasized" press="onSubmitRatingButtonPress"/>
+                                        </sap.ui.layout.form:content>
+                                    </sap.ui.layout.form:SimpleForm>
+                                </content>
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                    <List id="idReviewsList" items="{reviewsModel>/reviews}" headerText="{i18n>reviewsTabTitle}" noDataText="{i18n>noCommentsTitle}"
 						growing="true" growingThreshold="10" growingScrollToLoad="true">
-						<FeedListItem sender="{reviewsModel>username}" icon="sap-icon://person-placeholder" iconDensityAware="false" info="{reviewsModel>rating}"
+                        <FeedListItem sender="{reviewsModel>username}" icon="sap-icon://person-placeholder" iconDensityAware="false" info="{reviewsModel>rating}"
 							text="{reviewsModel>comments}" convertLinksToAnchorTags="All"></FeedListItem>
-					</List>
-				</content>
-				<footer>
-					<Toolbar>
-						<ToolbarSpacer/>
-					</Toolbar>
-				</footer>
-			</Page> -->
-		</pages>
-	</App>
+                    </List>
+                </content>
+                <footer>
+                    <Toolbar>
+                        <ToolbarSpacer/>
+                    </Toolbar>
+                </footer>
+            </Page>
+        </pages>
+    </App>
 </mvc:View>

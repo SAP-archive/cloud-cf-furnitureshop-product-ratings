@@ -49,19 +49,10 @@ modules:
 
 resources:
  - name: uaa_furnitureshop
-   parameters:
-      path: ./xs-security.json
-      service-plan: application
-      service: xsuaa
-      shared: true
-   type: org.cloudfoundry.managed-service
+   type: org.cloudfoundry.existing-service
 
  - name: destination
-   parameters:
-      service-plan: lite
-      service: destination
-      shared: true
-   type: org.cloudfoundry.managed-service
+   type: org.cloudfoundry.existing-service
 
  - name: postgresql_ratings
    type: postgresql
