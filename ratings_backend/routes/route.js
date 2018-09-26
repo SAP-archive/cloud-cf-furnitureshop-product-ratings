@@ -38,33 +38,6 @@ router.get(urlBase, function(req, res) {
     });
 });
 
-router.get(`/comments`, function(req, res) {
-    dbOp.getAllComments(function(error, data) {
-        if (error) {
-            res.status(500);
-            res.send(error.toString());
-        } else {
-            res.status(200);
-            res.send(data);
-        }
-    });
-});
-
-router.get(`${urlBase}/:id`, function(req, res) {
-    var id = req.params.id;
-    console.log(`Retrieving product ${id}`);
-
-    dbOp.getProduct(id, function(error, product) {
-        if (error) {
-            res.status(400);
-            res.send(error.toString());
-        } else {
-            res.status(200);
-            res.send(product); //modify the response message.
-        }
-    });
-});
-
 router.get(`${urlBase}/comments/:id`, function(req, res) {
     var id = req.params.id;
 
