@@ -15,6 +15,37 @@ modules:
     - name: uaa_furnitureshop
     - name: destination
     - name: postgresql_ratings
+    - name: rabbitmq_comments
+
+ - name: ratings_frontend
+   type: html5
+   path: ratings_frontend
+   parameters:
+      disk-quota: 256M
+      memory: 256M
+   build-parameters:
+      builder: grunt
+   requires:
+      - name: uaa_furnitureshop
+      - name: ratings_backend_api
+        group: destinations
+        properties:
+          name: ratings_comments
+          url: ~{ratings_comments_url}
+          forwardAuthToken: true
+
+ - name: tweet_comments
+   type: nodejs
+   path: tweet_comments
+   parameters:
+      disk-quota: 256M
+      memory: 256M
+   provides:
+    - name: tweet_comments_api
+      properties:
+         url: ${default-url}
+   requires:
+    - name: rabbitmq_comments
 
 resources:
  - name: uaa_furnitureshop
@@ -27,4 +58,9 @@ resources:
    type: postgresql
    parameters:
     service-plan: v9.6-dev
+
+ - name: rabbitmq_comments
+   type: rabbitmq
+   parameters:
+    service-plan: v3.6-dev
 
