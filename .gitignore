@@ -8,3 +8,4 @@ ratings_backend/package-lock.json
 ratings_frontend/package-lock.json
 ratings_frontend/dist/di.code-validation.core_issues.json
 tweet_comments/package-lock.json
+.che/
