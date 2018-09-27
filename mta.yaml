@@ -16,6 +16,23 @@ modules:
     - name: destination
     - name: postgresql_ratings
 
+ - name: ratings_frontend
+   type: html5
+   path: ratings_frontend
+   parameters:
+      disk-quota: 256M
+      memory: 256M
+   build-parameters:
+      builder: grunt
+   requires:
+      - name: uaa_furnitureshop
+      - name: ratings_backend_api
+        group: destinations
+        properties:
+          name: ratings_comments
+          url: ~{ratings_comments_url}
+          forwardAuthToken: true
+
 resources:
  - name: uaa_furnitureshop
    type: org.cloudfoundry.existing-service
