@@ -1,5 +1,3 @@
-/*jshint esversion: 6 */
-
 var express = require('express');
 var router = express.Router();
 var dbOp = require('../db/dbOp');
@@ -13,7 +11,7 @@ var rabbitmqURL = vcap_services.rabbitmq[0].credentials.uri;
 var urlBase = '/products';
 
 router.get('/getUserInfo', function(req, res, next) {
-  var accessToken = req.headers.authorization;
+  var accessToken = req.headers['authorization'];
   accessToken = accessToken.substring('Bearer '.length);
   var uaa = xsenv.getServices({
     uaa: {
@@ -40,7 +38,7 @@ router.get(urlBase, function(req, res) {
     });
 });
 
-router.get(urlBase + '/comments/:id', function(req, res) {
+router.get(`${urlBase}/comments/:id`, function(req, res) {
     var id = req.params.id;
 
     dbOp.getCommentsForProductId(id, function(error, data) {
@@ -69,7 +67,7 @@ function addToRabbitMQ(comment) {
   });
 }
 
-router.put(urlBase + '/:id', function(req, res) {
+router.put(`${urlBase}/:id`, function(req, res) {
   var id = req.params.id;
   var body = req.body;
   var productName = body.productName;
@@ -77,6 +75,8 @@ router.put(urlBase + '/:id', function(req, res) {
   var rating = body.rating;
   var comment = body.comment;
   var tweetMessage = userName + "'s review for '" + productName + "' - " + " \"" + comment + "\" ( " + rating + " stars )";
+
+  console.log(`Put comment ${id} ${JSON.stringify(body)}`);
 
   dbOp.modifyRatingANDComments(id, body, function(error, data) {
       if (error) {

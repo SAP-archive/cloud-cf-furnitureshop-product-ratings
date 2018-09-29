@@ -1,10 +1,10 @@
 /*eslint no-console: 0*/
-var express = require("express");
-var bodyParser = require("body-parser");
+var express = require('express');
+var bodyParser = require('body-parser');
 var cfenv = require("cfenv");
-var amqp = require("amqplib/callback_api");
-var Twitter = require("twit"); // Module for Twitter
-var config = require("./config/config");
+var amqp = require('amqplib/callback_api');
+var Twitter = require('twit'); // Module for Twitter
+var config = require('./config/config');
 var Twit = new Twitter(config);
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
 var rabbitmqURL = vcap_services.rabbitmq[0].credentials.uri;
