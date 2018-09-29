@@ -5,7 +5,7 @@ var xsenv = require('@sap/xsenv');
 /***
  * Extract client id, client secret and url from the bound Destinations service VCAP_SERVICES object
  *
- * when the promise resolves it returns a clientid, clientsecret and url of the token granting service
+ * when the promise resolves it returns a client id, client secret and url of the token granting service
  *
  * @returns {Promise<any>}
  */
@@ -45,8 +45,9 @@ function createToken(destAuthUrl, clientId, clientSecret) {
         // clientid and clientsecret.
         // Note we specify a grant_type and client_id as required to get the token
         // the request will return a JSON object already parsed
+        var url = destAuthUrl + "/oauth/token";
         request({
-                url: `${destAuthUrl}/oauth/token`,
+                url: url,
                 method: 'POST',
                 json: true,
                 form: {
@@ -76,7 +77,7 @@ function createToken(destAuthUrl, clientId, clientSecret) {
  * destination details.
  *
  * -----------------------------------------
- * NOTE WE ASSUME A DESTINATION OF testdest
+ * NOTE WE ASSUME A DESTINATION OF test dest
  * -----------------------------------------
  *
  * As above we do a GET request but instead of authentication we supply a bearer and access token
@@ -94,9 +95,9 @@ function getDestination(access_token, destinationName) {
         var destination = xsenv.getServices({destination: {tag: 'destination'} }).destination;
 
         // Note that we use the uri and not the url!!!!
-
+        var url = destination.uri + "/destination-configuration/v1/destinations/" + destinationName;
         request({
-                url: `${destination.uri}/destination-configuration/v1/destinations/${destinationName}`,
+                url: url,
                 method: 'GET',
                 auth: {
                     bearer: access_token,
@@ -105,10 +106,10 @@ function getDestination(access_token, destinationName) {
             },
             function(error, response, body) {
                 if (error) {
-                    console.error(`Error retrieving destination ${error.toString()}`);
+                    console.error('Error retrieving destination ' + error.toString());
                     reject(error);
                 } else {
-                    console.log(`Retrieved destination ${JSON.stringify(body)}`);
+                    console.log('Retrieved destination ' + JSON.stringify(body));
                     resolve(body.destinationConfiguration);
                 }
             });
@@ -119,54 +120,55 @@ function getWishListDestinationUrl() {
     return new Promise(function (resolve, reject) {
         getCredentials()
             .then(function (credentials) {
-                return createToken(credentials.url, credentials.clientid, credentials.clientsecret)
+                return createToken(credentials.url, credentials.clientid, credentials.clientsecret);
             })
             .then(function (access_token) {
                 return getDestination(access_token, 'getWishlist');
             })
             .then(function (destination) {
-                var url = `${destination.URL}`;
-                console.log(`Accessing ODATA URL ${url}`);
+                var url = destination.URL;
+                console.log('Accessing ODATA URL ' + url);
                 resolve(url);
             })
             .catch(function (error) {
-                console.error(`Error getting wishlist destination URL`);
+                console.error('Error getting wishlist destination URL');
                 reject(error);
-            })
+            });
     });
 }
 
 function updateWishlistRating(id, averageRating) {
-    console.log(`Updating OData Wishlist id ${id} with new rating ${averageRating}`);
+    console.log('Updating OData Wishlist id ' + id + ' with new rating ' + averageRating);
 
     return new Promise(function (resolve, reject) {
-        console.log(`Getting destination url for wishlist odata collection`);
+        console.log('Getting destination url for wishlist odata collection');
 
         getWishListDestinationUrl()
             .then(function (url) {
-                console.log(`Got destination url for wishlist odata collection ${url}`);
+                console.log('Got destination url for wishlist odata collection ' + url);
 
+                var wishListURL = url + '/odata/v2/CatalogService/Wishlist(' + id + ')';
                 request({
                     method: 'PUT',
-                    url: `${url}/odata/v2/CatalogService/Wishlist('${id}')`,
+                    url: wishListURL,
                     body: {
                         "productRating": averageRating.toString()
                     },
                     json: true
                 }, function(error, res, body) {
                     if (error) {
-                        console.log(`Failed to update wishlist rating ${error.toString()} - ${JSON.stringify(body)}`);
+                        console.log('Failed to update wishlist rating ' + error.toString() + JSON.stringify(body));
                         reject(error);
                     } else {
-                        console.log(`Updated Wishlist ${JSON.stringify(res)}`);
+                        console.log('Updated Wishlist ' + JSON.stringify(res));
                         resolve(res);
                     }
                 });
             })
             .catch(function (error) {
-                console.error(`Error getting destination ${error.toString()}`);
+                console.error('Error getting destination ' + error.toString());
                 reject(error);
-            })
+            });
     });
 }
 
@@ -174,28 +176,30 @@ function readWishList() {
     console.log('Reading wishlist data');
 
     return new Promise(function (resolve, reject) {
-        console.log(`Getting destination url for wishlist odata collection`);
+        console.log('Getting destination url for wishlist odata collection');
 
         getWishListDestinationUrl()
             .then(function (url) {
-                console.log(`Read destiantion url ${url}`);
+                console.log('Read destination url ' + url);
+
+                var wishListURL = url + '/odata/v2/CatalogService/Wishlist';
 
                 request({
                     method: 'GET',
-                    url: `${url}/odata/v2/CatalogService/Wishlist`,
+                    url: wishListURL,
                     json: true
                 }, function(error, response) {
                     if (error) {
-                        console.error(`Error getting odata from wishlist API ${error.toString()}`);
+                        console.error('Error getting odata from wishlist API ' + error.toString());
                         reject(error);
                     } else {
-                        console.log(`Received Odata from wishlist API`);
+                        console.log('Received Odata from wishlist API');
                         resolve(response.body);
                     }
-                })
+                });
             })
             .catch(function (error) {
-                console.error(`Failed reading Wishlist data - ${error.toString()}`);
+                console.error('Failed reading Wishlist data - ' + error.toString());
                 reject(error);
             });
     });
@@ -204,4 +208,4 @@ function readWishList() {
 module.exports = {
     updateWishlistRating: updateWishlistRating,
     readWishList: readWishList
-}
+};

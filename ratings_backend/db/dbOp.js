@@ -1,11 +1,11 @@
 'use strict';
-const async = require("async");
-const oData = require("../odata/odata");
-const xsenv = require('@sap/xsenv');
+var async = require("async");
+var oData = require("../odata/odata");
+var xsenv = require('@sap/xsenv');
 // Module var
-let __db;
+var __db;
 
-const CREATE_PRODUCTS_TABLE_SQL =
+var CREATE_PRODUCTS_TABLE_SQL =
     'CREATE TABLE IF NOT EXISTS product_details \
           ( \
               productID varchar, \
@@ -16,7 +16,7 @@ const CREATE_PRODUCTS_TABLE_SQL =
               PRIMARY KEY (productID) \
           )';
 
-const CREATE_COMMENTS_TABLE_SQL =
+var CREATE_COMMENTS_TABLE_SQL =
     'CREATE TABLE IF NOT EXISTS comments \
               ( \
                       userName varchar, \
@@ -29,13 +29,13 @@ const CREATE_COMMENTS_TABLE_SQL =
 
 function _connectToDB() {
     if (!__db) {
-        // we create and intialize the connection
-        const pgp = require('pg-promise')();
+        // we create and initialize the connection
+        var pgp = require('pg-promise')();
 
-        const postgresqlEnv = xsenv.getServices({postgresql: {tag: 'postgresql'}}).postgresql;
-        console.log(`ENV for Postgres ${JSON.stringify(postgresqlEnv)}`);
+        var postgresqlEnv = xsenv.getServices({ postgresql: { tag: 'postgresql' } }).postgresql;
+        console.log('ENV for Postgresql ' + JSON.stringify(postgresqlEnv));
 
-        const dbConnStr = postgresqlEnv.uri;
+        var dbConnStr = postgresqlEnv.uri;
 
         __db = pgp(dbConnStr);
     }
@@ -49,35 +49,37 @@ function writeWishlistEntitiesToDB(data, cb) {
 
     // we could also iterate over all the data items, creating a promise
     // for all then use Promise.all(promises array).then(....)
-    const products = data.filter(function (product) { return product.productName && product.productName.trim()});
+    var products = data.filter(function (product) {
+        return product.productName && product.productName.trim();
+    });
 
-    console.log(`Products to add: ${products.length}`);
+    console.log('Products to add: ' + products.length);
 
-    const db = _connectToDB();
+    var db = _connectToDB();
     db.none('DELETE FROM product_details')
-        .then(function() {
+        .then(function () {
             return db.none('DELETE FROM comments');
         })
         .then(function () {
-            async.forEachOf(products, function(value, key, callback) {
-                const id = value.ProductID;
-                const name = value.productName;
-                const desc = value.productDesc;
-                const rating = value.productRating;
-                const pictureURL = value.pictureURL;
+            async.forEachOf(products, function (value, key, callback) {
+                var id = value.ProductID;
+                var name = value.productName;
+                var desc = value.productDesc;
+                var rating = value.productRating;
+                var pictureURL = value.pictureURL;
 
                 db.none('INSERT INTO product_details(productID, productName, productDesc, averageRating, pictureURL) VALUES($1, $2, $3, $4, $5)', [id, name, desc, rating, pictureURL])
                     .then(function () {
-                        console.log(`Created product ${id}`);
+                        console.log('Created product ' + id);
                         callback();
                     })
-                    .catch(function(error) {
-                        console.error(`Error uploading product ${key} ${JSON.stringify(value)}`);
+                    .catch(function (error) {
+                        console.error('Error uploading product ' + key + JSON.stringify(value));
                         callback(error);
                     });
             }, function (error) {
                 if (error) {
-                    console.error(`Error uploading initial data ${error.toString()}`);
+                    console.error('Error uploading initial data ' + error.toString());
                     cb(error);
                 } else {
                     console.log('Completed uploading of initial data');
@@ -86,9 +88,9 @@ function writeWishlistEntitiesToDB(data, cb) {
             });
         })
         .catch(function (error) {
-            console.error(`ERROR:_uploadInitialData ${error.toString()}`);
+            console.error('ERROR:_uploadInitialData ' + error.toString());
             cb(error);
-        })
+        });
 }
 
 
@@ -98,25 +100,25 @@ function uploadInitialData(cb) {
     oData.readWishList()
         .then(function (body) {
 
-            const results = body.d.results;
+            var results = body.d.results;
 
-            console.log(`RESULTS: ${JSON.stringify(results)}`);
+            console.log('RESULTS: ' + JSON.stringify(results));
 
             writeWishlistEntitiesToDB(results,
                 function (error) {
                     console.log('writeWishlistEntitiesToDB has finished');
 
                     if (error) {
-                        console.error(`Error uploading initial data to DB ${error.toString()}`);
-                        cb(error)
+                        console.error('Error uploading initial data to DB ' + error.toString());
+                        cb(error);
                     } else {
                         console.log('Pushed data into DB');
                         cb();
                     }
                 });
         })
-        .catch(function(error) {
-            console.error(`Error uploadInitialData ${error.toString()}`);
+        .catch(function (error) {
+            console.error('Error uploadInitialData ' + error.toString());
             cb(error);
         });
 }
@@ -124,84 +126,84 @@ function uploadInitialData(cb) {
 function initializeDB(cb) {
     console.log("initializeDB ");
 
-    const db = _connectToDB();
+    var db = _connectToDB();
 
     db.none(CREATE_PRODUCTS_TABLE_SQL)
-        .then(function() {
+        .then(function () {
             console.log("productDetails created");
             return db.none(CREATE_COMMENTS_TABLE_SQL);
         })
-        .then( function () {
+        .then(function () {
             console.log("commentsTable created");
             cb();
         })
-        .catch((error) => {
-            console.log(`Error while creating productDetails table ${error.toString()}`);
+        .catch(function (error) {
+            console.log('Error while creating productDetails table ' + error.toString());
             cb(error);
         });
 }
 
 function getAllProducts(cb) {
-    const db = _connectToDB();
+    var db = _connectToDB();
 
     db.manyOrNone('SELECT * FROM product_details')
-        .then(function(data) {
-            console.log(`Retrieved products ${JSON.stringify(data)}`);
-            cb(null, data)
+        .then(function (data) {
+            console.log('Retrieved products ' + JSON.stringify(data));
+            cb(null, data);
         })
-        .catch(function(error) {
-            console.error(`Error retrieving products ${error.toString()}`);
+        .catch(function (error) {
+            console.error('Error retrieving products ' + error.toString());
             cb(error);
-        })
+        });
 }
 
 function getCommentsForProductId(id, cb) {
-    const db = _connectToDB();
+    var db = _connectToDB();
 
     db.manyOrNone('SELECT * FROM comments WHERE productID = $1', [id])
-        .then(function(data) {
-            console.log(`Retrieved products ${JSON.stringify(data)}`);
-            cb(null, data)
+        .then(function (data) {
+            console.log('Retrieved products ' + JSON.stringify(data));
+            cb(null, data);
         })
-        .catch(function(error) {
-            console.error(`Error retrieving product id ${id} ${error.toString()}`);
+        .catch(function (error) {
+            console.error('Error retrieving product id ' + id + error.toString());
             cb(error);
-        })
+        });
 }
 
 
 function _updateAverageRating(db, id) {
     console.log('entering updateAverageRating');
 
-    let averageRating = 0;
+    var averageRating = 0;
 
     return new Promise(function (resolve, reject) {
         db.one('SELECT COUNT(productID) AS "number_of_ratings", SUM(rating) AS "total_ratings" ,productID  FROM comments WHERE productID = $1 GROUP BY productID', [id])
-            .then(function(data) {
-                console.log(`Got average ratings ${JSON.stringify(data)}`);
+            .then(function (data) {
+                console.log('Got average ratings ' + JSON.stringify(data));
 
-                const totalRatings = data.total_ratings;
-                const numberOfRatings = data.number_of_ratings || 1; // if there are ratings then divide by zero error!!!
+                var totalRatings = data.total_ratings;
+                var numberOfRatings = data.number_of_ratings || 1; // if there are ratings then divide by zero error!!!
                 averageRating = totalRatings / numberOfRatings;
 
-                console.log(`Average rating is now ${averageRating}`);
+                console.log('Average rating is now ' + averageRating);
 
                 return Promise.resolve(averageRating);
             })
             .then(function (averageRating) {
-                console.log(`Update product details with new average rating = ${averageRating}`);
+                console.log('Update product details with new average rating = ' + averageRating);
                 return db.one('UPDATE product_details SET averageRating=$1 WHERE productID=$2 RETURNING *', [averageRating, id]);
             })
-            .then(function() {
+            .then(function () {
                 console.log('Updating remote service');
                 return oData.updateWishlistRating(id, averageRating);
             })
-            .then(function() {
+            .then(function () {
                 console.log('Completed updating average rating');
                 resolve();
             })
             .catch(function (error) {
-                console.error(`error updating average rating ${error.toString()}`);
+                console.error('error updating average rating ' + error.toString());
                 reject(error);
             });
     });
@@ -210,17 +212,17 @@ function _updateAverageRating(db, id) {
 function modifyRatingANDComments(id, input, callback) {
     console.log('modifyRatingANDComments entered');
 
-    const db = _connectToDB();
-    const email = input.email;
-    const username = input.userName;
-    const rating = input.rating;
-    const comment = input.comment;
+    var db = _connectToDB();
+    var email = input.email;
+    var username = input.userName;
+    var rating = input.rating;
+    var comment = input.comment;
 
-    console.log(`Properties: ${id} ${email} ${username} ${rating} ${comment}`);
+    console.log('Properties: ' + id + email + username + rating + comment);
 
     db.one('SELECT COUNT(productID) AS "number_of_ratings" FROM comments WHERE productID = $1 AND email=$2', [id, email])
         .then(function (data) {
-            console.log(`Got number of ratings ${JSON.stringify(data)}`);
+            console.log('Got number of ratings ' + JSON.stringify(data));
 
             if (parseInt(data.number_of_ratings)) {
                 // we have ratings
@@ -232,16 +234,16 @@ function modifyRatingANDComments(id, input, callback) {
                 return db.one('INSERT INTO comments(userName, email, rating,comments, productID) values($1,$2,$3,$4,$5) RETURNING *', [username, email, rating, comment, id]);
             }
         })
-        .then (function () {
-            console.log(`Updating average rating for product ${id}`);
+        .then(function () {
+            console.log('Updating average rating for product ' + id);
             return _updateAverageRating(db, id);
         })
-        .then(function() {
-            console.log(`updateAverageRating completed successfully`);
+        .then(function () {
+            console.log('updateAverageRating completed successfully');
             callback();
         })
         .catch(function (error) {
-            console.error(`Error in modifyRatingANDComments ${error.toString()}`);
+            console.error('Error in modifyRatingANDComments ' + error.toString());
             callback(error);
         });
 }
