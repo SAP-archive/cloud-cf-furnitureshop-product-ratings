@@ -40,10 +40,6 @@ modules:
    parameters:
       disk-quota: 256M
       memory: 256M
-   provides:
-    - name: tweet_comments_api
-      properties:
-         url: ${default-url}
    requires:
     - name: rabbitmq_comments
 
