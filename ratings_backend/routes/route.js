@@ -9,6 +9,11 @@ var vcap_services = JSON.parse(process.env.VCAP_SERVICES);
 
 var urlBase = '/products';
 
+router.get('/', function(req, res, next) {
+  req.url = urlBase; //We forward the default request to the /products endpoint request
+  router.handle(req, res);
+});
+
 router.get('/getUserInfo', function(req, res, next) {
   var accessToken = req.headers['authorization'];
   accessToken = accessToken.substring('Bearer '.length);
