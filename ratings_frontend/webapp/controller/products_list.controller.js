@@ -45,10 +45,15 @@
 			});
 		},
 
-		/**
-		 * Fetches the list of products from the server.
-		 * Sets the list details to a local view model.
-		 */
+
+
+		// /**
+		//  * Fetches the list of products from the server.
+		//  * Sets the list details to a local view model.
+		//  * Do not uncomment this portion
+		//  */
+
+
 		// getProductsList: function () {
 		// 	//We make a get call to fetch the product list
 		// 	//To see the back-end mapping go to xs-app.json
@@ -101,11 +106,16 @@
 			this.getProductsList();
 		},
 
-		/** Event handler for Table Selection
-		 * It sets the selected item details to a global context model, and
-		 * Navigates to the Details View.
-		 * @param  {} oEvent
-		 */
+
+
+		// /** Event handler for Table Selection
+		//  * It sets the selected item details to a global context model, and
+		//  * Navigates to the Details View.
+		//  * @param  {} oEvent
+		//  * Do not uncomment this portion
+		//  */
+
+
 		// onProductSelection: function (oEvent) {
 		// 	//We identify the selected product form the event object and the binding context
 		// 	var bindingContextPath = oEvent.getSource().getBindingContextPath();

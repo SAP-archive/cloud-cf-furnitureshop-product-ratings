@@ -40,10 +40,15 @@ sap.ui.define([
 			this.setReviewFeed();
 		},
 
-		/**
-		 * Fetches the reviews and comments for the product whose details are current being viewed.
-		 * Sets the reviews data to the reviews model.
-		 */
+
+
+		// /**
+		//  * Fetches the reviews and comments for the product whose details are current being viewed.
+		//  * Sets the reviews data to the reviews model.
+		//  * Do not uncomment this portion
+		//  */
+
+
 		// setReviewFeed: function () {
 		// 	var controller = this;
 		// 	var productId = this.getView().getModel("productDetails").getData().productid;
@@ -141,11 +146,16 @@ sap.ui.define([
 			this.getView().setModel(emptyDataModel, modelName);
 		},
 
-		/**
-		 * Event handler for submit button press.
-		 * When a user adds a rating and a review, she/he clicks on the submit button.
-		 * @param  {} oEvent
-		 */
+
+
+		// /**
+		//  * Event handler for submit button press.
+		//  * When a user adds a rating and a review, she/he clicks on the submit button.
+		//  * @param  {} oEvent
+		//  * Do not uncomment this portion
+		//  */
+
+
 		// onSubmitRatingButtonPress: function (oEvent) {
 		// 	var controller = this;
 
@@ -206,6 +216,8 @@ sap.ui.define([
 		// 			}
 		// 		});
 		// },
+
+
 
 		/**
 		 * Event handler for back button press
