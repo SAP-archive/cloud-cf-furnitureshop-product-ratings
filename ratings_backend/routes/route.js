@@ -10,6 +10,11 @@ var rabbitmqURL = vcap_services.rabbitmq[0].credentials.uri;
 
 var urlBase = '/products';
 
+router.get('/', function(req, res, next) {
+  req.url = urlBase; //We forward the default request to the /products endpoint request
+  router.handle(req, res);
+});
+
 router.get('/getUserInfo', function(req, res, next) {
   var accessToken = req.headers['authorization'];
   accessToken = accessToken.substring('Bearer '.length);
