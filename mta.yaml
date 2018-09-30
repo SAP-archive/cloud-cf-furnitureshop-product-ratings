@@ -27,7 +27,6 @@ modules:
       builder: grunt
    requires:
       - name: uaa_furnitureshop
-      - name: tweet_comments_api
       - name: ratings_backend_api
         group: destinations
         properties:
@@ -41,10 +40,6 @@ modules:
    parameters:
       disk-quota: 256M
       memory: 256M
-   provides:
-    - name: tweet_comments_api
-      properties:
-         url: ${default-url}
    requires:
     - name: rabbitmq_comments
 
