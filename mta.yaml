@@ -7,6 +7,9 @@ modules:
  - name: ratings_backend
    type: nodejs
    path: ratings_backend
+   parameters:
+      disk-quota: 256M
+      memory: 256M   
    provides:
     - name: ratings_backend_api
       properties:
